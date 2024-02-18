@@ -293,13 +293,13 @@ pargs(Node *n, char *p)
 }
 
 int
-protoconv(void *t, Fconv *f)
+protoconv(Fmt *fp)
 {
 	Node *n;
 	char *p, buf[512];
 	int i;
 
-	n = *((Node**)t);
+	n = va_arg(fp->args, Node*);
 	i = sprint(buf, "%T %s(", n->t->next, n->sym->name);
 	if(n->left == 0)
 		strcat(buf, "void, ");
@@ -312,23 +312,21 @@ protoconv(void *t, Fconv *f)
 		p[1] = '\0';
 	}
 
-	strconv(buf, f);
-	return(sizeof(Node*));
+	return fmtstrcpy(fp, buf);
 }
 
 int
-nodeconv(void *t, Fconv *f)
+nodeconv(Fmt *fp)
 {
 	Node *n;
 	char *p, buf[256];
 	int i;
 
-	n = *((Node**)t);
+	n = va_arg(fp->args, Node*);
 
 	if(n == 0) {
 		strcpy(buf, "ZeroN");
-		strconv(buf, f);
-		return(sizeof(Node*));
+		return fmtstrcpy(fp, buf);
 	}
 
 	i = sprint(buf, "%s [%d,%d] ", treeop[n->type], n->sun, n->islval);
@@ -383,8 +381,7 @@ nodeconv(void *t, Fconv *f)
 		break;
 	}
 
-	strconv(buf, f);
-	return(sizeof(Node*));
+	return fmtstrcpy(fp, buf);
 }
 
 char indent[] = "...........................";

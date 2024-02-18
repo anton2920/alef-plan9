@@ -171,7 +171,7 @@ tmathop(Node *n, int logical, char tab[Ntype][Ntype])
 		}
 	}
 	if(opt('m')) {
-		print("tmathop: %T %T result %s\n", l->t, r->t, typestr[v]);
+		print("tmathop: %T %T result %s\n", l->t, r->t, _typestr[v]);
 		ptree(n, 0);
 	}
 	return 0;

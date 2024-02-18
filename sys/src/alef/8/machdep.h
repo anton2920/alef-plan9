@@ -1,5 +1,5 @@
 /*
- * Machine dependant sparc
+ * Machine dependant 386
  */
 
 #include "/sys/src/cmd/8c/8.out.h"
@@ -78,7 +78,7 @@ struct Glab
 
 struct Adres
 {
-	char	type;
+	uchar	type;
 	char	etype;
 	char	index;
 	char	scale;
@@ -307,7 +307,7 @@ int		bnum(Bits);
 Bits		blsh(int);
 int		beq(Bits, Bits);
 int		bitno(long);
-int		Bconv(void*, Fconv*);
+int		Bconv(Fmt*);
 void		ieeedtod(Ieee*, double);
 int		vcache(Biobuf*, Adres*);
 char		*vaddr(char*, Adres*, int);

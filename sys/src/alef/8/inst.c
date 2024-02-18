@@ -432,6 +432,9 @@ vconst(Node *n)
 			return -159;
 		return i;
 	}
+
+	/* NOTE(anton2920): assuming it's an error code. */
+	return -159;
 }
 
 /*

@@ -3,7 +3,9 @@
  */
 
 #define CPP	"/bin/cpp"
-#define nil	((void*)0)
+
+#define malloc	lmalloc
+#define free	lfree
 
 Extern int	Owarn;
 Extern int	Scope;
@@ -89,9 +91,11 @@ Extern Node*	checknode;
 #define opt(s)		flag[s]
 
 extern char*	treeop[];
-extern char*	typestr[];
+extern char*	_typestr[];
 
-int	VBconv(void*, Fconv*);
+void	doprint(char*, char*, char*, va_list);
+
+int	VBconv(Fmt*);
 Type*	abt(int);
 void	addarg(Node*, Node*);
 void	adtchk(Node*, Node*);
@@ -149,7 +153,7 @@ Node*	mkprtsym(char*, Node*);
 int	mpatof(char*, double*);
 void	newalt(void);
 void	newtype(Type*, Node*, Node*);
-int	nodeconv(void*, Fconv*);
+int	nodeconv(Fmt*);
 int	notunion(Type*);
 int	numsym(char);
 void	objfile(char*);
@@ -167,7 +171,7 @@ void	popjmp(Jmps**);
 void	prnagun(Type*, int);
 int	promote(Node*, Node*);
 int	protocmp(Node*, Node*);
-int	protoconv(void*, Fconv*);
+int	protoconv(Fmt*);
 void	ptree(Node*, int);
 void	pushdcl(Node*, int);
 void	pushjmp(Jmps**);
@@ -184,7 +188,7 @@ void	stmnt(Node*);
 Node*	strnode(String*, int);
 void	strop(void);
 int	tasgninit(Type*, Node*, int);
-int	tconv(void*, Fconv*);
+int	tconv(Fmt*);
 Type*	tmcpy(Type*);
 void	treeflat(Node*, Node**);
 int	tupleasgn(Node*);
@@ -198,7 +202,7 @@ int	tydot(Node*);
 int	typechk(Node*, int);
 int	typechk(Node*, int);
 int	typecmp(Type*, Type*, int);
-int	typeconv(void*, Fconv*);
+int	typeconv(Fmt*);
 void	typeinit(void);
 void	typerec(Node*, Type*);
 ulong	typesig(Type*);
@@ -223,3 +227,5 @@ void	dupok(void);
 int	vcmp(Type*, Type*);
 String*	mkstring(char*, ...);
 int	isnil(Node*);
+void*	lmalloc(long);
+void	lfree(void*);

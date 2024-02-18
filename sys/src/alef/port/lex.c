@@ -7,7 +7,7 @@
 #include "globl.h"
 #include "y.tab.h"
 
-int Lconv(void*, Fconv*);
+int Lconv(Fmt*);
 
 struct keywd
 {
@@ -255,7 +255,7 @@ mkstring(char *fmt, ...)
 	String *s;
 	char buf[Strsize];
 
-	doprint(buf, buf+sizeof(buf), fmt, (&fmt+1));
+	doprint(buf, buf+sizeof(buf), fmt, (va_list)(&fmt+1));
 	s = malloc(sizeof(String));
 	s->string = strdup(buf);
 	s->len = strlen(buf)+1;
@@ -699,7 +699,7 @@ ltytosym(Type *t)
 
 /* History algorithm from kens compiler */
 int
-Lconv(void *o, Fconv *f)
+Lconv(Fmt *fp)
 {
 	char str[Strsize], s[Strsize];
 	Hist *h;
@@ -713,7 +713,7 @@ Lconv(void *o, Fconv *f)
 	long l, d;
 	int i, n;
 
-	l = *(long*)o;
+	l = va_arg(fp->args, long);
 	n = 0;
 	for(h = hist; h != H; h = h->link) {
 		if(h->offset == -1)
@@ -764,8 +764,7 @@ Lconv(void *o, Fconv *f)
 	if(strncmp(str, wd, n) != 0)
 		n = 0;
 
-	strconv(str+n, f);
-	return sizeof(l);
+	return fmtstrcpy(fp, str+n);
 }
 
 void
